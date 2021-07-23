@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"net/http"
-	"os"
 	"sync"
 
 	srv "github.com/balazshorvath/go-srv"
@@ -27,15 +26,12 @@ func (s *server) Init() {
 	// Routing
 	mux.HandleFunc("/gitlab/issue", handle(service, yt, s.Config.YouTrack.ProjectId))
 	s.Srv = &http.Server{
+		Addr:    ":8080",
 		Handler: mux,
 	}
 }
 
 func New(ctx context.Context, group *sync.WaitGroup) srv.Server {
-	path := os.Getenv("CONFIG_PATH")
-	if path == "" {
-		path = "config.yaml"
-	}
 	return &server{
 		BasicHttpServer: srv.BasicHttpServer{
 			BasicServer: srv.BasicServer{
@@ -43,6 +39,6 @@ func New(ctx context.Context, group *sync.WaitGroup) srv.Server {
 				Group: group,
 			},
 		},
-		Config: config.New(path),
+		Config: config.NewEnv(),
 	}
 }
