@@ -18,7 +18,7 @@ type server struct {
 }
 
 func (s *server) Init() {
-	service, err := gitlab.New()
+	service, err := gitlab.New(gitlab.Options.Secret(s.Config.GitlabToken))
 	if err != nil {
 		panic(err)
 	}
