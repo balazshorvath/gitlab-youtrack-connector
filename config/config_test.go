@@ -14,6 +14,7 @@ func TestConfigParsing(t *testing.T) {
 	err = yaml.Unmarshal(file, conf)
 	assertErr(t, err, "could not unmarshal config")
 	assertStr(t, conf.GitlabToken, "token", "GitlabToken")
+	assertStr(t, conf.Port, "8080", "Port")
 	assert(t, conf.YouTrack != nil, "YouTrack property should not be empty")
 	assertStr(t, conf.YouTrack.Url, "yturl", "YouTrack.Url")
 	assertStr(t, conf.YouTrack.ProjectId, "projectId", "YouTrack.ProjectId")

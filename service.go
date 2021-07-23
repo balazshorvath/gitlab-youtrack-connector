@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"sync"
 
@@ -26,7 +27,7 @@ func (s *server) Init() {
 	// Routing
 	mux.HandleFunc("/gitlab/issue", handle(service, yt, s.Config.YouTrack.ProjectId))
 	s.Srv = &http.Server{
-		Addr:    ":8080",
+		Addr:    fmt.Sprintf(":%s", s.Config.Port),
 		Handler: mux,
 	}
 }

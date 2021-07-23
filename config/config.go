@@ -1,14 +1,12 @@
 package config
 
 import (
-	"io/ioutil"
 	"log"
 	"os"
-
-	"gopkg.in/yaml.v2"
 )
 
 type Service struct {
+	Port        string    `yaml:"port"`
 	GitlabToken string    `yaml:"gitlab-token"`
 	YouTrack    *YouTrack `yaml:"you-track"`
 }
@@ -22,25 +20,13 @@ type YouTrack struct {
 func NewEnv() *Service {
 	return &Service{
 		GitlabToken: getEnvOrPanic("GITLAB_TOKEN"),
+		Port:        getEnvOrPanic("PORT"),
 		YouTrack: &YouTrack{
 			Token:     getEnvOrPanic("YT_TOKEN"),
 			Url:       getEnvOrPanic("YT_URL"),
 			ProjectId: getEnvOrPanic("YT_PROJECT_ID"),
 		},
 	}
-}
-
-func NewFile(path string) *Service {
-	content, err := ioutil.ReadFile(path)
-	if err != nil {
-		panic(err)
-	}
-	conf := &Service{}
-	err = yaml.Unmarshal(content, conf)
-	if err != nil {
-		panic(err)
-	}
-	return conf
 }
 
 func getEnvOrPanic(name string) string {
