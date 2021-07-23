@@ -24,9 +24,10 @@ func handle(hook *gitlab.Webhook, youtrack *youtrack.YouTrack, ytProjectId strin
 				return
 			}
 			err = youtrack.CreateIssue(
-				fmt.Sprintf("%d", issue.ObjectAttributes.ID),
+				fmt.Sprintf("%d", issue.ObjectAttributes.IID),
 				issue.ObjectAttributes.Title,
 				issue.ObjectAttributes.Description,
+				issue.ObjectAttributes.URL,
 				ytProjectId,
 			)
 			if err != nil {

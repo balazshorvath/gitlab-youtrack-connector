@@ -22,11 +22,11 @@ func New(url, token string) *YouTrack {
 	}
 }
 
-func (y *YouTrack) CreateIssue(id, summary, description, project string) error {
+func (y *YouTrack) CreateIssue(id, summary, description, link, project string) error {
 	req, err := json.Marshal(
 		&CreateIssueRequest{
 			Summary:     fmt.Sprintf("#%s - %s", id, summary),
-			Description: description,
+			Description: fmt.Sprintf("%s\n\nGenerated for [issue in Gitlab](%s)", description, link),
 			Project: struct {
 				Id string `json:"id"`
 			}{
