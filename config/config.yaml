@@ -1,0 +1,5 @@
+gitlab-token: token
+you-track:
+  token: yttoken
+  url: yturl
+  project-id: projectId
